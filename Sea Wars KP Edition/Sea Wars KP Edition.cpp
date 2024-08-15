@@ -1,17 +1,19 @@
 ﻿#include <iostream>
+#include <windows.h>
 using namespace std;
-int const n = 10;
-void vision(int mass[][n]);
+
+int const n = 10;//Размер поля
+
+void vision(int mass[][n]); //показ поля
 int ships_alignment(int matrix[][n], int ship_rate, int ship_count);//расстановка кораблей
 int ship_rotate(int matrix[][n]);//поворот поставленных кораблей
-
+void ii_alignment();
  int main() {
-    srand(time(NULL));
-    int cpu_matrix[n][n] = { 0 };
-    ship_rotate(cpu_matrix);
-    vision(cpu_matrix);
-    system("pause");
-    return 0;
+     setlocale(LC_ALL, "RU");
+     cout << "М"; Sleep(200); cout << "О"; Sleep(200); cout << "Р"; Sleep(200); cout << "С"; Sleep(200); cout << "К"; Sleep(200);
+     cout << "О"; Sleep(200); cout << "Й"; Sleep(200); cout << "    "; Sleep(200); cout << "Б"; Sleep(200); cout << "О"; Sleep(200);
+     cout << "Й"; Sleep(1000); cout << "\n" << "\n" << "\n KP Edition\n"; Sleep(1000); cout << "\n" << "\n" << "\n" << "\n";
+     ii_alignment();//раастановка кораблей ии
  }
 
 void vision(int mass[][n]) {
@@ -106,7 +108,7 @@ int ships_alignment(int matrix[][n], int ship_rate, int ship_count) {
      return matrix[n][n];
  }
 
- int ship_rotate(int matrix[][n]) {
+int ship_rotate(int matrix[][n]) {
      int ship_rate = 4;//кол-во палуб
      int ship_count = 1;//кол-во кораблей
      ships_alignment(matrix, ship_rate, ship_count);
@@ -120,4 +122,12 @@ int ships_alignment(int matrix[][n], int ship_rate, int ship_count) {
      ++ship_count;
      ships_alignment(matrix, ship_rate, ship_count);
      return matrix[n][n];
+}
+
+void ii_alignment() {
+    srand(time(NULL));
+    int cpu_matrix[n][n] = { 0 };
+    ship_rotate(cpu_matrix);
+    vision(cpu_matrix);
+    system("pause");
 }
