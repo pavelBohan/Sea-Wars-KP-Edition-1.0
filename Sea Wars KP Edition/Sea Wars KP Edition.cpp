@@ -1,16 +1,15 @@
 ﻿#include <iostream>
 using namespace std;
-
- void vision(int mass[][n]);
- int ships_alignment(int matrix[][n], int ship_rate, int ship_count);
- int ship_rotate(int matrix[][n]);
+int const n = 10;
+void vision(int mass[][n]);
+int ships_alignment(int matrix[][n], int ship_rate, int ship_count);
+int ship_rotate(int matrix[][n]);
 
  int main() {
-     srand(time(NULL));
-     int cpu_matrix[n][n] = { 0 };
-     ship_rotate(cpu_matrix);
-     vision(cpu_matrix);
-
+    srand(time(NULL));
+    int cpu_matrix[n][n] = { 0 };
+    ship_rotate(cpu_matrix);
+    vision(cpu_matrix);
      system("pause");
      return 0;
  }
@@ -27,8 +26,8 @@ using namespace std;
      }
  }
 
- int ships_alignment(int matrix[][n], int ship_rate, int ship_count) {
-     bool s_i_p = 1;//возможна ли установка(setting_is_possible)
+int ships_alignment(int matrix[][n], int ship_rate, int ship_count) {
+    bool s_i_p = 1;//возможна ли установка(setting_is_possible)
      int x, y;//координаты
      int turn = 0;//поворот
      int temp_x;
@@ -121,6 +120,4 @@ using namespace std;
      ++ship_count;
      ships_alignment(matrix, ship_rate, ship_count);
      return matrix[n][n];
- }
-
 }
