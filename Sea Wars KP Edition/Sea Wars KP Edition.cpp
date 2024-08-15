@@ -120,6 +120,4 @@ int ships_alignment(int matrix[][n], int ship_rate, int ship_count) {
      ++ship_count;
      ships_alignment(matrix, ship_rate, ship_count);
      return matrix[n][n];
- }
-
 }
