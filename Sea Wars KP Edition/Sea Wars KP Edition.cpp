@@ -4,7 +4,7 @@ using namespace std;
 
 int const n = 10;//Размер поля
 
-void vision(int mass[][n]); //показ поля
+void vision(int mass[][n]); //показ поля. Выводит двумерный массив с кораблями
 int ships_alignment_ii(int matrix[][n], int ship_rate, int ship_count);//генерация раастановки кораблей ии
 int ship_rotate(int matrix[][n]);//поворот поставленных кораблей ии
 void ii_alignment();//раастановка кораблей ии
@@ -104,22 +104,22 @@ int ships_alignment_ii(int matrix[][n], int ship_rate, int ship_count) {
          }
          num_ship++; //количество поставленных кораблей +1
      }
-     return matrix[n][n];//сохранить расстановку ии
+     return matrix[n][n];//сохранить двумерный массив
  }
 
 int ship_rotate(int matrix[][n]) {
      int ship_rate = 4;//кол-во палуб
      int ship_count = 1;//кол-во кораблей
-     ships_alignment_ii(matrix, ship_rate, ship_count);
+     ships_alignment_ii(matrix, ship_rate, ship_count);//создание и размещение четырехпалубного корабля
      --ship_rate;
      ++ship_count;
-     ships_alignment_ii(matrix, ship_rate, ship_count);
+     ships_alignment_ii(matrix, ship_rate, ship_count);//содание и размещение двух трёхпалубных кораблей
      --ship_rate;
      ++ship_count;
-     ships_alignment_ii(matrix, ship_rate, ship_count);
+     ships_alignment_ii(matrix, ship_rate, ship_count);//создание и размещение трех двухпалубных кораблей
      --ship_rate;
      ++ship_count;
-     ships_alignment_ii(matrix, ship_rate, ship_count);
+     ships_alignment_ii(matrix, ship_rate, ship_count);//создание и размещение четырех однопалубных кораблей
      return matrix[n][n];
 }
 
