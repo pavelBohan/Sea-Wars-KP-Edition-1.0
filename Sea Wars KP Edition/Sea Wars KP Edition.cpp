@@ -8,13 +8,14 @@ void vision(int mass[][n]); //показ поля
 int ships_alignment(int matrix[][n], int ship_rate, int ship_count);//расстановка кораблей
 int ship_rotate(int matrix[][n]);//поворот поставленных кораблей
 void ii_alignment();
- int main() {
-     setlocale(LC_ALL, "RU");
-     cout << "М"; Sleep(200); cout << "О"; Sleep(200); cout << "Р"; Sleep(200); cout << "С"; Sleep(200); cout << "К"; Sleep(200);
-     cout << "О"; Sleep(200); cout << "Й"; Sleep(200); cout << "    "; Sleep(200); cout << "Б"; Sleep(200); cout << "О"; Sleep(200);
-     cout << "Й"; Sleep(1000); cout << "\n" << "\n" << "\n KP Edition\n"; Sleep(1000); cout << "\n" << "\n" << "\n" << "\n";
-     ii_alignment();//раастановка кораблей ии
- }
+
+int main() {
+    setlocale(LC_ALL, "RU");
+    cout << "М"; Sleep(200); cout << "О"; Sleep(200); cout << "Р"; Sleep(200); cout << "С"; Sleep(200); cout << "К"; Sleep(200);
+    cout << "О"; Sleep(200); cout << "Й"; Sleep(200); cout << "    "; Sleep(200); cout << "Б"; Sleep(200); cout << "О"; Sleep(200);
+    cout << "Й"; Sleep(1000); cout << "\n" << "\n" << "\n KP Edition\n"; Sleep(1000); cout << "\n" << "\n" << "\n" << "\n";
+    ii_alignment();//раастановка кораблей ии
+}
 
 void vision(int mass[][n]) {
     for (int i = 0; i < n; ++i) {
