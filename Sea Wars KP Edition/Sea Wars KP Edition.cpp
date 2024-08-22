@@ -24,7 +24,7 @@ void vision(int mass[][n]) {
             if (mass[i][j] == 0)
                 cout << " - ";
             else {
-                cout << " 0 "/*mass[i][j] */;
+                cout << " - "/*mass[i][j] */;
             }
         cout << endl;
     }
