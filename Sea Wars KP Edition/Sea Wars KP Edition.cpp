@@ -128,6 +128,5 @@ void ii_alignment() {
     srand(time(NULL));
     int cpu_matrix[n][n] = { 0 };
     ship_rotate(cpu_matrix);
-    vision(cpu_matrix);
     system("pause");//фунция для теста
 }
