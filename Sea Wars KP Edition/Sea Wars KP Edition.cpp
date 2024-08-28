@@ -11,14 +11,19 @@ int player1_dead_ship_count = 0;//количество убитых первым
 int player2_dead_ship_count = 0;//количество убитых вторым игроком кораблей
 int cpu_dead_ship_count = 0;//количество убитых компьютером кораблей
 
-void vision(int mass[][n]); //показ поля.
-void x_ray(int mass[][n]);//показ поля. Выводит двумерный массив с кораблями
+//всё, что отвечает за вывод поля на экран
+void vision(int mass[n][n]); //показ поля.
+void x_ray(int mass[n][n]);//показ поля. Выводит двумерный массив, показывает где корабли
+
+//всё, что отвечает за расстановку
 int ships_alignment_ii(int matrix[][n], int ship_rate, int ship_count);//генерация раастановки кораблей ии
-int ship_rotate(int matrix[][n]);//поворот поставленных кораблей ии
-int alignment(int player, int matrix[n][n]);//раастановка кораблей
-int battle(int matrix[n][n]);//игрок наносит удар по вражескому полю
-int popadanie(int x, int y, int matrix[n][n]);
-int ship_kill(int x, int y, int matrix[n][n]);
+int ship_rotate(int matrix[n][n]);//поворот поставленных кораблей ии
+int random_alignment(int matrix[n][n]);//раастановка кораблей
+
+//всё, что отвечает за сражение
+int battle(int *dead_ship_count, int matrix[n][n]);//игрок наносит удар по вражескому полю
+int popadanie(int *dead_ship_count, int x, int y, int matrix[n][n]);//проверка на попадание по кораблю
+int ship_kill(int *dead_ship_count, int x, int y, int matrix[n][n]);//проверка на убийство корабля
 
 int main() {
     setlocale(LC_ALL, "RU");
@@ -26,45 +31,55 @@ int main() {
     cout << "О"; Sleep(200); cout << "Й"; Sleep(200); cout << "    "; Sleep(200); cout << "Б"; Sleep(200); cout << "О"; Sleep(200);
     cout << "Й"; Sleep(1000); cout << "\n" << "\n" << "\n KP Edition\n"; Sleep(1000); cout << "\n" << "\n" << "\n" << "\n";
 
-    int gamemode, first_try; cout << "\nВыберите режим игры:\nНажмите 1 для игры с другом\nНажмите 2 для игры с компьютером\nНажмите любое другое число для выхода из игры";
+    int gamemode, first_try, choice; cout << "\nВыберите режим игры:\nНажмите 1 для игры с другом\nНажмите 2 для игры с компьютером\nНажмите любое другое число для выхода из игры\n";
     cin >> gamemode;
     switch (gamemode)
     {
     case(1):
-        cout << "\nРежим еще в разработке\n";
-        break;
-    case(2):
-        alignment(0, cpu_matrix);//раастановка кораблей ии
-        //player1_alignment();//расстановка кораблей игркоком (рандомная пока что)
+        cout << "\nРежим еще в разработке, вы будете перенаправлены в режим против компьютера\n";
+    case(2)://сражение с компьютером
+        srand(time(NULL));
+        random_alignment(cpu_matrix);//раастановка кораблей ии  
+        cout << "\nВведите 1, если хотите расставить корабли самостоятельно\nВведите другое любое число, если хотите случайную расстановку кораблей\n";
+        cin >> choice;
+        switch (choice)
+        {
+        case(1):
+            cout << "\nФункция еще в разработке, корабли будут расставлены случайно\n";
+        default:
+            random_alignment(player1_matrix);//случайная расстановка кораблей игрока
+            cout << "\nВаши корабли успешно расставлены!\n";
+            break;
+        }
         first_try = rand() % 2;//случайный выбор человека, который ходит первым
         switch (first_try)
         {
         case(0):
-    do
-    {
-                    battle(cpu_matrix);//бьем по полю компьютера
-                    //battle(player_matrix);//компьютер бьёт по полю игрока
-                } while (player1_dead_ship_count < 10);
-            cout << "Вы победили!!!\nСпасибо за игру!!!\n";
-            system("pause");
-            break;
-        case(1):
+            cout << "\nМы наносим удар первыми!\n";
                 do
                 {
-                    //battle(player_matrix);
-        battle(cpu_matrix);
-                } while (player1_dead_ship_count < 10);
-    cout << "Вы победили!!!";
-    system("pause");
+                    battle(&player1_dead_ship_count, cpu_matrix);//бьем по полю компьютера
+                    battle(&cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
+                } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
+            break;
+        case(1):
+            cout << "\nВраг наносит удар первым!\n";
+                do
+                {
+                    battle(&cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
+                    battle(&player1_dead_ship_count ,cpu_matrix);//бьем по полю компьютера
+                } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
             break;
         default:
             cout << "Ты никак не должен был попасать сюда, но если так случилось, то это ошибка, обратись к создателям этого кода:\n@MoonExe\n@RinneJaaba\n@ProgressMachine\n";
             break;
-}
+        }
     default:
         cout << "\n Морское пока! \n";
         break;
     }
+    cout << "Вы победили!!!\nСпасибо за игру!!!\n";
+    system("pause");
 }
 
 void vision(int matrix[n][n]) {
@@ -80,26 +95,62 @@ void vision(int matrix[n][n]) {
         {
             cout << " " << stroka << " ";
         }
-
-        for (int y = 0; y < n; ++y)
+        for (int y = 0; y < n; y++)
             if (matrix[x][y] <= 3)
-                cout << " " << matrix[x][y] << " ";//" - ";
+                cout << " - ";//" " << matrix[x][y] << " ";
             else
             {
                 if (matrix[x][y] % 3 == 0)
                 {
-                    cout << " " << matrix[x][y] << " ";//" 0 ";
+                    cout << " 0 ";
                 }
                 else
                 {
-                    cout << " " << matrix[x][y] << " ";//" + ";
+                    cout << " + ";
                 }
             }
         cout << endl;
     }
  }
 
-int ships_alignment_ii(int matrix[][n], int ship_rate, int ship_count) {
+void x_ray(int matrix[][n]) {
+    cout << "Грязный читер\n";
+    cout << "    1  2  3  4  5  6  7  8  9  10 \n";
+    int stroka = 0;
+    for (int x = 0; x < n; ++x) {
+        stroka++;
+        if (stroka == 10)
+        {
+            cout << stroka << " ";
+        }
+        else
+        {
+            cout << " " << stroka << " ";
+        }
+
+        for (int y = 0; y < n; ++y)
+        if (matrix[x][y] == 3)
+            cout << " " << matrix[x][y] << " ";//" # "; //" " << matrix[x][y] << " ";
+        else if (matrix[x][y] == 2)
+        {
+            cout << " " << matrix[x][y] << " ";//" - ";
+        }
+        else
+        {
+            if (matrix[x][y] % 3 == 0)
+            {
+                cout << " " << matrix[x][y] << " ";//" 0 ";
+            }
+            else
+            {
+                cout << " " << matrix[x][y] << " ";//" + ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+int ships_alignment_ii(int matrix[n][n], int ship_rate, int ship_count) {
     bool s_i_p = 1;//возможна ли установка(setting_is_possible)
     int x, y;//координаты
     int turn = 0;//поворот
@@ -192,7 +243,7 @@ int ship_rotate(int matrix[n][n]) {
      return matrix[n][n];
 }
 
-int alignment(int player, int matrix[n][n]) {
+int random_alignment(int matrix[n][n]) {
     srand(time(NULL));
     for (int i = 0; i < n; i++)
     {
@@ -201,59 +252,27 @@ int alignment(int player, int matrix[n][n]) {
             matrix[i][j] = 2;
         }
     }
-    ship_rotate(cpu_matrix);
-    return cpu_matrix[n][n];
+    ship_rotate(matrix);
+    return matrix[n][n];
 }
 
-void x_ray(int matrix[][n]) {
-    cout << "Грязный читер\n";
-    cout << "    1  2  3  4  5  6  7  8  9  10 \n";
-    int stroka = 0;
-    for (int x = 0; x < n; ++x) {
-        stroka++;
-        if (stroka == 10)
-        {
-            cout << stroka << " ";
-        }
-        else
-        {
-            cout << " " << stroka << " ";
-        }
-
-        for (int y = 0; y < n; ++y)
-            if (matrix[x][y] <= 3)
-                cout << " " << matrix[x][y] << " ";//" - ";
-            else
-            {
-                if (matrix[x][y] % 3 == 0)
-                {
-                    cout << " " << matrix[x][y] << " ";//" 0 ";
-                }
-                else
-                {
-                    cout << " " << matrix[x][y] << " ";//" + ";
-                }
-            }
-        cout << endl;
-    }
-}
-
-int battle(int matrix[n][n])
+int battle(int *dead_ship_count, int matrix[n][n])
 {   
     int x, y;
     do
     {
+        cout << "\n";
         vision(matrix);
         cout << "Введите координаты клетки, которую будем атаковать!\nВведите цифру по вертикали:\n";
         cin >> x; cout << "Введите цифру по горизонтали:\n"; cin >> y;
         matrix[x - 1][y - 1] = pow(matrix[x - 1][y - 1], 2);
-        popadanie(x - 1, y - 1, matrix);
+        popadanie(dead_ship_count,x - 1, y - 1, matrix);
     } while (matrix[x][y] % 2 != 0);
     system("pause");
     return matrix[n][n];
 }
 
-int popadanie(int dead_ship_count, int x, int y, int matrix[n][n])
+int popadanie(int *dead_ship_count, int x, int y, int matrix[n][n])
 {
     if (matrix[x][y] % 3 == 0)
     {
@@ -263,22 +282,22 @@ int popadanie(int dead_ship_count, int x, int y, int matrix[n][n])
         switch (slovo)
         {
         case(0):
-            cout << "\n Есть пробитие!! \n";
+            cout << "\n Есть пробитие!! \n" << "\n";
             break;
         case(1):
-            cout << "\n Попадание! \n";
+            cout << "\n Попадание! \n" << "\n";
             break;
         case(2):
-            cout << "\n Прямо в цель! \n";
+            cout << "\n Прямо в цель! \n" << "\n";
             break;
         case(3):
-            cout << "\n В яблочко! \n";
+            cout << "\n В яблочко! \n" << "\n";
             break;
         default:
             break;
         }
-        ship_kill(x, y, matrix);
-        battle(matrix);
+        ship_kill(dead_ship_count, x, y, matrix);
+        battle(dead_ship_count, matrix);
     }
     else
     {
@@ -307,7 +326,7 @@ int popadanie(int dead_ship_count, int x, int y, int matrix[n][n])
     
 }
 
-int ship_kill(int dead_ship_count, int x, int y, int matrix[n][n])
+int ship_kill(int *dead_ship_count, int x, int y, int matrix[n][n])
 {
     if (matrix[x][y + 1] != 3 && matrix[x][y - 1] != 3 && matrix[x + 1][y] != 3 && matrix[x - 1][y] && matrix[x][y] % 3 == 0)
     {
@@ -321,7 +340,7 @@ int ship_kill(int dead_ship_count, int x, int y, int matrix[n][n])
         matrix[x - 1][y + 1] = pow(matrix[x - 1][y + 1], 2);
         matrix[x - 1][y - 1] = pow(matrix[x - 1][y - 1], 2);
         dead_ship_count++;
-        cout << "\nПошёл ко дну!!!\n";
+        cout << "\nПошёл ко дну!!!\n" << "\n";
     }
     return matrix[n][n];
 }
