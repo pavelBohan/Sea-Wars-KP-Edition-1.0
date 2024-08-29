@@ -18,7 +18,7 @@ void x_ray(int mass[n][n]);//показ поля. Выводит двумерн�
 //всё, что отвечает за расстановку
 int ships_alignment_ii(int matrix[][n], int ship_rate, int ship_count);//генерация раастановки кораблей ии
 int ship_rotate(int matrix[n][n]);//поворот поставленных кораблей ии
-int random_alignment(int matrix[n][n]);//раастановка кораблей
+int random_alignment(int matrix[n][n]);//расстановка кораблей
 
 //всё, что отвечает за сражение
 int battle(int *dead_ship_count, int matrix[n][n]);//игрок наносит удар по вражескому полю
@@ -291,7 +291,7 @@ int popadanie(int *dead_ship_count, int x, int y, int matrix[n][n])
             cout << "\n Прямо в цель! \n" << "\n";
             break;
         case(3):
-            cout << "\n В яблочко! \n" << "\n";
+            cout << "\n В яблОЧКО! \n" << "\n";
             break;
         default:
             break;
