@@ -306,11 +306,17 @@ int inputShips(int matrix[n][n]) {
 }
 
 int main() {
-    cout << "Расставьте свои корабли:" << endl;
-    inputShips(player1_matrix);
+    int ships[4];
+    for (int size = 1;size <= 4;++size) {
+        for (int count = 0;count < [size - 1];++count )
+    }
+     
+      
+        
 
-    return 0;
+
 }
+
 
 int battle(int *dead_ship_count, int matrix[n][n])
 {   
