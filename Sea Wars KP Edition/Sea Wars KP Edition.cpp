@@ -71,7 +71,7 @@ int main() {
                 } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
             break;
         default:
-            cout << "Ты никак не должен был попасать сюда, но если так случилось, то это ошибка, обратись к создателям этого кода:\n@MoonExe\n@RinneJaaba\n@ProgressMachine\n";
+            cout << "Ты никак не должен был пописать сюда, но если так случилось, то это ошибка, обратись к создателям этого кода:\n@MoonExe\n@RinneJaaba\n@ProgressMachine\n";
             break;
         }
     default:
