@@ -7,9 +7,14 @@ int const n = 10;//Размер поля
 int cpu_matrix[n][n] = { 0 };// поле ии
 int player1_matrix[n][n] = { 0 }; //поле первого игрока
 int player2_matrix[n][n] = { 0 }; //поле второго игрока
+
 int player1_dead_ship_count = 0;//количество убитых первым игроком кораблей
 int player2_dead_ship_count = 0;//количество убитых вторым игроком кораблей
 int cpu_dead_ship_count = 0;//количество убитых компьютером кораблей
+
+int *player1_dead_ship_count = &player1_dead_ship_count;//указатель
+int *player2_dead_ship_count = &player2_dead_ship_count;//указатель
+int *cpu_dead_ship_count = &cpu_dead_ship_count;//указатель
 
 //всё, что отвечает за вывод поля на экран
 void vision(int mass[n][n]); //показ поля.
