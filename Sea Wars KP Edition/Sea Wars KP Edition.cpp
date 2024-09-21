@@ -59,8 +59,8 @@ int main() {
                 {
                     cout << "\nНаша очередь наносить удар!!!\n";
                     battle(&player1_dead_ship_count, cpu_matrix);//бьем по полю компьютера
-                    cout << "\nКомпьюетр наносит ответный удар!!!\n";
-                    battle(&cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
+                   // cout << "\nКомпьюетр наносит ответный удар!!!\n";
+                   // battle(*cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
                 } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
                 if (player1_dead_ship_count == 10)
                 {
@@ -74,8 +74,8 @@ int main() {
         case(1):
                 do
                 {
-                    cout << "\nКомпьютер проводит атаку!\n";
-                    battle(&cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
+                   // cout << "\nКомпьютер проводит атаку!\n";
+                   // battle(*cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
                     cout << "\nТеперь мы наносим удар!!!\n";
                     battle(&player1_dead_ship_count ,cpu_matrix);//бьем по полю компьютера
                 } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
@@ -201,8 +201,7 @@ void x_ray(int matrix[][n]) {
                 }
             cout << endl;
         }
-        cout << "\nКоличество убитых кораблей первым игроком " << player1_dead_ship_count << "\nКоличество убитых кораблей вторым игроком "
-            << player2_dead_ship_count << "\nКоличество убитых кораблей второго игрока " << cpu_dead_ship_count <<"\n";
+        cout << "\nКоличество убитых кораблей первым игроком " << player1_dead_ship_count << "\nКоличество убитых кораблей вторым игроком " << player2_dead_ship_count << "\nКоличество убитых кораблей второго игрока " << cpu_dead_ship_count << "\n";
         break;
     default:
         break;
@@ -321,7 +320,7 @@ int battle(int *dead_ship_count, int matrix[n][n])
     do
     {
         cout << "\n";
-        vision(matrix);
+        x_ray(matrix);
         cout << "Введите координаты клетки, которую будем атаковать!\nВведите цифру по вертикали:\n";
         cin >> x; 
         if (x > 10 && x < 1)
