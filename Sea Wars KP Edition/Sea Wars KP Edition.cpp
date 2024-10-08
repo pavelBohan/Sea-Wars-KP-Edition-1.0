@@ -59,7 +59,7 @@ int main() {
                 do
                 {
                     cout << "\nНаша очередь наносить удар!!!\n";
-                    battle(&player1_dead_ship_count, cpu_matrix);//бьем по полю компьютера
+                    battle(player1_dead_ship_count, cpu_matrix);//бьем по полю компьютера
                    // cout << "\nКомпьюетр наносит ответный удар!!!\n";
                    // battle(*cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
                 } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
@@ -78,7 +78,7 @@ int main() {
                    // cout << "\nКомпьютер проводит атаку!\n";
                    // battle(*cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
                     cout << "\nТеперь мы наносим удар!!!\n";
-                    battle(&player1_dead_ship_count ,cpu_matrix);//бьем по полю компьютера
+                    battle(player1_dead_ship_count ,cpu_matrix);//бьем по полю компьютера
                 } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
                 if (player1_dead_ship_count == 10)
                 {
@@ -345,7 +345,7 @@ int battle(int dead_ship_count, int matrix[n][n])
     return matrix[n][n];
 }
 
-int popadanie(int *dead_ship_count, int x, int y, int matrix[n][n])
+int popadanie(int dead_ship_count, int x, int y, int matrix[n][n])
 {
     if (matrix[x][y] % 3 == 0)
     {
@@ -399,7 +399,7 @@ int popadanie(int *dead_ship_count, int x, int y, int matrix[n][n])
     
 }
 
-int ship_kill(int *dead_ship_count, int x, int y, int matrix[n][n])
+int ship_kill(int dead_ship_count, int x, int y, int matrix[n][n])
 {
     if (matrix[x][y + 1] != 3 && matrix[x][y - 1] != 3 && matrix[x + 1][y] != 3 && matrix[x - 1][y] && matrix[x][y] % 3 == 0)
     {
