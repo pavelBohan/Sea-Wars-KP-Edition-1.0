@@ -4,13 +4,16 @@
 using namespace std;
 
 int const n = 10;//Размер поля
-int cpu_matrix[n][n] = { 0 };// поле ии
-int player1_matrix[n][n] = { 0 }; //поле первого игрока
-int player2_matrix[n][n] = { 0 }; //поле второго игрока
 
-int player1_dead_ship_count = 0;//количество убитых первым игроком кораблей
-int player2_dead_ship_count = 0;//количество убитых вторым игроком кораблей
-int cpu_dead_ship_count = 0;//количество убитых компьютером кораблей
+struct User
+{
+    int matrix[n][n] = { 0 };
+    int dead_ship_count = 0;
+};
+
+User PC;
+User P1;
+User P2;
 
 //всё, что отвечает за вывод поля на экран
 void vision(int mass[n][n]); //показ поля.
@@ -20,6 +23,7 @@ void x_ray(int mass[n][n]);//показ поля в режиме отладки
 int ships_alignment_ii(int matrix[][n], int ship_rate, int ship_count);//генерация раастановки кораблей ии
 int ship_rotate(int matrix[n][n]);//поворот поставленных кораблей ии
 int random_alignment(int matrix[n][n]);//расстановка кораблей
+int player_aligment(int matrix[][n]);
 
 //всё, что отвечает за сражение
 int battle(int dead_ship_count, int matrix[n][n]);//игрок наносит удар по вражескому полю
@@ -38,17 +42,20 @@ int main() {
     {
     case(1):
         cout << "\nРежим еще в разработке, вы будете перенаправлены в режим против компьютера\n";
+        break;
     case(2)://сражение с компьютером
         srand(time(NULL));
-        random_alignment(cpu_matrix);//раастановка кораблей ии  
+        random_alignment(PC.matrix);//раастановка кораблей ии  
         cout << "\nВведите 1, если хотите расставить корабли самостоятельно\nВведите другое любое число, если хотите случайную расстановку кораблей\n";
         cin >> choice;
         switch (choice)
         {
         case(1):
             cout << "\nФункция еще в разработке, корабли будут расставлены случайно\n";
+            player_aligment(P1.matrix);//игрок расставляет корабли
+            break;
         default:
-            random_alignment(player1_matrix);//случайная расстановка кораблей игрока
+            random_alignment(P1.matrix);//случайная расстановка кораблей игрока
             cout << "\nВаши корабли успешно расставлены!\n";
             break;
         }
@@ -59,11 +66,11 @@ int main() {
                 do
                 {
                     cout << "\nНаша очередь наносить удар!!!\n";
-                    battle(player1_dead_ship_count, cpu_matrix);//бьем по полю компьютера
-                   // cout << "\nКомпьюетр наносит ответный удар!!!\n";
-                   // battle(*cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
-                } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
-                if (player1_dead_ship_count == 10)
+                    battle(P1.dead_ship_count, PC.matrix);//бьем по полю компьютера
+                   cout << "\nКомпьюетр наносит ответный удар!!!\n";
+                   battle(PC.dead_ship_count, P1.matrix);//компьютер бьёт по полю игрока
+                } while (P1.dead_ship_count < 10 && PC.dead_ship_count < 10);
+                if (P1.dead_ship_count == 10)
                 {
                     cout << "\nВы победили!!!\n";
                 }
@@ -75,18 +82,18 @@ int main() {
         case(1):
                 do
                 {
-                   // cout << "\nКомпьютер проводит атаку!\n";
-                   // battle(*cpu_dead_ship_count, player1_matrix);//компьютер бьёт по полю игрока
+                   cout << "\nКомпьютер проводит атаку!\n";
+                   battle(PC.dead_ship_count, P1.matrix);//компьютер бьёт по полю игрока
                     cout << "\nТеперь мы наносим удар!!!\n";
-                    battle(player1_dead_ship_count ,cpu_matrix);//бьем по полю компьютера
-                } while (player1_dead_ship_count < 10 || cpu_dead_ship_count < 10);
-                if (player1_dead_ship_count == 10)
+                    battle(P1.dead_ship_count ,PC.matrix);//бьем по полю компьютера
+                } while (player1_dead_ship_count < 10 && cpu_dead_ship_count < 10);
+                if (P1.dead_ship_count == 10)
                 {
                     cout << "\nВы победили!!!\n";
                 }
                 else
                 {
-                    cout << "\nКомпьютер победили!!!\n";
+                    cout << "\nКомпьютер победил!!!\n";
                 }
             break;
         default:
@@ -97,6 +104,7 @@ int main() {
         cout << "\n Морское пока! \n";
         break;
     }
+    cout << "\n Морское пока! \n";
 }
 
 void vision(int matrix[n][n]) {
@@ -313,6 +321,13 @@ int random_alignment(int matrix[n][n]) {
     }
     ship_rotate(matrix);
     return matrix[n][n];
+}
+
+
+
+int player_aligment(int matrix[][n])
+{
+
 }
 
 int battle(int dead_ship_count, int matrix[n][n])
