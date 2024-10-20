@@ -86,7 +86,7 @@ int main() {
                    battle(PC.dead_ship_count, P1.matrix);//компьютер бьёт по полю игрока
                     cout << "\nТеперь мы наносим удар!!!\n";
                     battle(P1.dead_ship_count ,PC.matrix);//бьем по полю компьютера
-                } while (player1_dead_ship_count < 10 && cpu_dead_ship_count < 10);
+                } while (P1.dead_ship_count < 10 && PC.dead_ship_count < 10);
                 if (P1.dead_ship_count == 10)
                 {
                     cout << "\nВы победили!!!\n";
@@ -139,45 +139,6 @@ void vision(int matrix[n][n]) {
  }
 
 void x_ray(int matrix[][n]) {
-    int choice,stroka; cout << "\n1 - матрица\n2 - читы\n"; cin >> choice;
-    switch (choice)
-    {
-    case(1):
-        cout << "    1  2  3  4  5  6  7  8  9  10 \n";
-        stroka = 0;
-        for (int x = 0; x < n; ++x) {
-            stroka++;
-            if (stroka == 10)
-            {
-                cout << stroka << " ";
-            }
-            else
-            {
-                cout << " " << stroka << " ";
-            }
-
-            for (int y = 0; y < n; ++y)
-                if (matrix[x][y] == 3)
-                    cout << " " << matrix[x][y] << " ";//" # "; //" " << matrix[x][y] << " ";
-                else if (matrix[x][y] == 2)
-                {
-                    cout << " " << matrix[x][y] << " ";//" - ";
-                }
-                else
-                {
-                    if (matrix[x][y] % 3 == 0)
-                    {
-                        cout << " " << matrix[x][y] << " ";//" 0 ";
-                    }
-                    else
-                    {
-                        cout << " " << matrix[x][y] << " ";//" + ";
-                    }
-                }
-            cout << endl;
-        }
-        break;
-    case(2):
         cout << "    1  2  3  4  5  6  7  8  9  10 \n";
         stroka = 0;
         for (int x = 0; x < n; ++x) {
@@ -210,11 +171,7 @@ void x_ray(int matrix[][n]) {
                 }
             cout << endl;
         }
-        cout << "\nКоличество убитых кораблей первым игроком " << player1_dead_ship_count << "\nКоличество убитых кораблей вторым игроком " << player2_dead_ship_count << "\nКоличество убитых кораблей второго игрока " << cpu_dead_ship_count << "\n";
-        break;
-    default:
-        break;
-    }
+        cout << "\nКоличество убитых кораблей первым игроком " << P1.dead_ship_count << "\nКоличество убитых кораблей вторым игроком " << P2.dead_ship_count << "\nКоличество убитых кораблей второго игрока " << PC.dead_ship_count << "\n";
 }
 
 int ships_alignment_ii(int matrix[n][n], int ship_rate, int ship_count) {
@@ -327,7 +284,7 @@ int random_alignment(int matrix[n][n]) {
 
 int player_aligment(int matrix[][n])
 {
-
+    return 0;
 }
 
 int battle(int dead_ship_count, int matrix[n][n])
@@ -338,25 +295,17 @@ int battle(int dead_ship_count, int matrix[n][n])
         cout << "\n";
         x_ray(matrix);
         cout << "Введите координаты клетки, которую будем атаковать!\nВведите цифру по вертикали:\n";
-        cin >> x; 
-        if (x > 10 && x < 1)
+        cin >> x; cout << "Введите цифру по горизонтали:\n"; cin >> y;
+        if (x > 10 || x < 1 || y > 10 || y < 1)
         {
             do
             {
                 cout << "\nКапитан, это пространство вне нашей боевой зоны!!!\nВведите подходящие координаты от 1 до 10\n" << "\n";
-            } while (x > 10 && x < 1);
+            } while (x > 10 || x < 1 || y > 10 || y < 1);
         }
-        cout << "Введите цифру по горизонтали:\n"; cin >> y;
-        if (y > 10 && y < 1)
-        {
-            do
-            {
-                cout << "\nКапитан, это пространство вне нашей боевой зоны!!!\nВведите подходящие координаты от 1 до 10\n" << "\n";
-            } while (y > 10 && y < 1);
-        }
-        matrix[x - 1][y - 1] = pow(matrix[x - 1][y - 1], 2);
+        matrix[x - 1][y - 1] = matrix[x - 1][y - 1] * 2;
         popadanie(dead_ship_count,x - 1, y - 1, matrix);
-    } while (matrix[x][y] % 2 != 0);
+    } while (matrix[x][y] % 3 == 0);
     return matrix[n][n];
 }
 
