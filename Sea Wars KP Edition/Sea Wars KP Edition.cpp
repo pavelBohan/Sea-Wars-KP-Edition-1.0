@@ -171,7 +171,7 @@ void x_ray(int matrix[][n]) {
                 }
             cout << endl;
         }
-        cout << "\nКоличество убитых кораблей первым игроком " << P1.dead_ship_count << "\nКоличество убитых кораблей вторым игроком " << P2.dead_ship_count << "\nКоличество убитых кораблей второго игрока " << PC.dead_ship_count << "\n";
+    cout << "\nКоличество убитых кораблей первым игроком " << P1.dead_ship_count <<  "\nКоличество убитых пк второго игрока " << PC.dead_ship_count << "\n";
 }
 
 int ships_alignment_ii(int matrix[n][n], int ship_rate, int ship_count) {
@@ -279,8 +279,6 @@ int random_alignment(int matrix[n][n]) {
     ship_rotate(matrix);
     return matrix[n][n];
 }
-
-
 
 int player_aligment(int matrix[][n])
 {
